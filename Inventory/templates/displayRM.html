@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raw Materials Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .btn {
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .btn-edit {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Raw Materials</h2>
+
+<table>
+  <tr>
+    <th>Raw Material ID</th>
+    <th>Raw Material Name</th>
+    <th>Actions</th>
+  </tr>
+  {% for raw_m in raw %}
+  <tr>
+    <td>{{ raw_m.id }}</td>
+    <td>{{ raw_m.RM_name }}</td>
+    <td>
+        <a class="btn btn-edit" href="{% url 'update_raw' raw_m.id %}">Edit</a>
+        <form action="{% url 'delete_raw' raw_m.id %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-delete">Delete</button>
+        </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+</body>
+</html>

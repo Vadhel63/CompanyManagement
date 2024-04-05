@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Received</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      max-width: 600px;
+      margin: 20px auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    input[type="date"],
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      margin-top: 6px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button[type="reset"],
+    button[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    button[type="reset"]:hover,
+    button[type="submit"]:hover {
+      background-color: #45a049;
+    }
+
+    div {
+      border: 1px solid black;
+      padding: 20px;
+    }
+
+    @media screen and (max-width: 600px) {
+      table {
+        border: 0;
+      }
+
+      table thead {
+        display: none;
+      }
+
+      table, table tbody, table tr, table td {
+        display: block;
+        width: 100%;
+      }
+
+      table tr {
+        margin-bottom: 15px;
+      }
+
+      table td {
+        text-align: right;
+        padding-left: 50%;
+        text-align: left;
+      }
+
+      input[type="date"],
+      input[type="text"],
+      select {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+        margin-top: 6px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Payment Received</h1>
+  <div style="border: 1px solid black">
+    <form action="" method="post">
+      {% csrf_token %}
+      <table border="1">
+        <tbody>
+          <thead>
+            <th>Date</th>
+            <th>Sales Party Name :</th>
+            <th>Payment Paid</th>
+          </thead>
+          <tr>
+            <td>
+              <input
+                type="date"
+                name="paymentReceivedDate"
+                id="paymentReceivedDate"
+              />
+            </td>
+            <td>
+              <select name="paymentReceivedParty" id="paymentReceivedParty">
+                {% for p in party%}
+                <option value="{{p.id}}">{{p.name}}</option>
+                {% endfor %}
+              </select>
+            </td>
+            <td>
+              <input
+                type="text"
+                name="paymentReceivedAmount"
+                id="paymentReceivedAmount"
+                placeholder="Enter Amount of Payment Received"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="submit">Submit Payment Received</button>
+      <button type="reset">Reset</button>
+    </form>
+  </div>
+</body>
+</html>

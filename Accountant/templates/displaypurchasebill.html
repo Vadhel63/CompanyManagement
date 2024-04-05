@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Bill Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .purchase-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #007bff; /* Blue border */
+            cursor: pointer;
+        }
+        .purchase-info {
+            margin-left: 10px;
+        }
+        .purchase-info p {
+            margin: 5px 0;
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 600px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .subtotal {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Purchase Bill Items</h2>
+
+        <!-- Django Template for Purchase Bill List -->
+        {% for bill in purchase_bill_list %}
+            <div class="purchase-item" onclick="openModal('{{ bill.bill_id }}')">
+                <div class="purchase-info">
+                    <p><strong>Bill ID:</strong> {{ bill.bill_id }}</p>
+                    <p><strong>Party Name:</strong> {{ bill.party_name }}</p>
+                    <p><strong>Date:</strong> {{ bill.date_of_genrate }}</p>
+                    <p><strong>Total Amount:</strong> {{ bill.total_amount }}</p>
+                    <h3>Raw Materials:</h3>
+                    <table>
+                        <thead>
+                            <th>Raw Material</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Sub Total</th>
+                        </thead>
+                        <tbody>
+                            {% for item in bill.items %}
+                                <tr>
+                                    <td>{{ item.RM_name }}</td>
+                                    <td>{{ item.RM_qty }}</td>
+                                    <td>{{ item.RM_price }}</td>
+                                    <td class="subtotal">{{ item.subtotal_item }}</td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <td colspan="3">Total Amount:</td>
+                                <td class="subtotal">{{ bill.subtotal }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Modal -->
+    <script>
+        // Function to open modal and display card details
+        function openModal(id) {
+            var modal = document.getElementById('myModal');
+            modal.style.display = "block";
+
+            // Fetch details based on ID, for now, just display the ID
+            var modalContent = document.getElementById('modalContent');
+            modalContent.innerHTML = "<h1>Company Details</h1><p>Display details for ID: " + id + "</p>";
+        }
+
+        // Function to close modal
+        function closeModal() {
+            var modal = document.getElementById('myModal');
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            var modal = document.getElementById('myModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
